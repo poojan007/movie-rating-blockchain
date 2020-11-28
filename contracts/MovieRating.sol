@@ -42,9 +42,8 @@ contract MovieRating {
     }
     
     function add(string memory _movieName) public onlyOwner {
-        uint  count = 0;
+        uint count = 0;
         count = movies.length;
-        count++;
           
         movies.push(_movieName);
         movieRatings[count].totalRating = 0;
@@ -53,7 +52,6 @@ contract MovieRating {
     }
     
     function rate(uint _movieId, uint _rating) public checkMovieExist(_movieId) rateLimit(_rating) {
-      
         movieRatings[_movieId].totalRating += _rating;
         movieRatings[_movieId].totalRater++;
     }
