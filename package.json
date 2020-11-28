@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "lite-server",
     "test": "truffle test",
-    "deploy": "truffle migrate --network ropsten"
+    "deploy": "truffle migrate --network development"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +24,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm test",
-      "pre-push": "npm deploy"
+      "pre-push": "npm run deploy"
     }
   }
 }
