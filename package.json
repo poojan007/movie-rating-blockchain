@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "truffle test"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +18,11 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "truffle-hdwallet-provider": "^1.0.17"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
