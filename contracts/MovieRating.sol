@@ -9,6 +9,7 @@ contract MovieRating {
     struct Rating {
         uint totalRating;
         uint totalRater;
+        bool exist;
     }
     
     mapping(uint => Rating) public movieRatings;
@@ -21,6 +22,7 @@ contract MovieRating {
             movies.push(_movieNames[i]);
             movieRatings[i].totalRating = 0;
             movieRatings[i].totalRater = 0;
+            movieRatings[i].exist = true;
         }
     }
     
@@ -34,6 +36,11 @@ contract MovieRating {
         _;
     }
     
+    modifier checkMovieExist(uint _movieId){
+        require(movieRatings[_movieId].exist, "Movie Doesn't exist");
+        _;
+    }
+    
     function add(string memory _movieName) public onlyOwner {
         uint  count = 0;
         count = movies.length;
@@ -42,9 +49,11 @@ contract MovieRating {
         movies.push(_movieName);
         movieRatings[count].totalRating = 0;
         movieRatings[count].totalRater = 0;
+        movieRatings[count].exist = true;
     }
     
-    function rate(uint _movieId, uint _rating) public rateLimit(_rating) {
+    function rate(uint _movieId, uint _rating) public checkMovieExist(_movieId) rateLimit(_rating) {
+      
         movieRatings[_movieId].totalRating += _rating;
         movieRatings[_movieId].totalRater++;
     }
