@@ -3,23 +3,6 @@ App = {
   contracts: {},
 
   init: async function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
-
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
-
-        petsRow.append(petTemplate.html());
-      }
-    });
-
     return await App.initWeb3();
   },
 
@@ -58,18 +41,12 @@ App = {
       // Set the provider for our contract
       App.contracts.MovieRating.setProvider(App.web3Provider);
     
-      // Use our contract to retrieve the movie ratings
-      return App.getRating();
+      // Use our contract to retrieve the movies
+      return App.getMovies();
     });
-
-    return App.bindEvents();
   },
 
-  bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
-  },
-
-  getRating: function() {
+  getMovies: function() {
     var movieRatingInstance;
 
     App.contracts.MovieRating.deployed().then(function(instance) {
@@ -77,17 +54,19 @@ App = {
       return movieRatingInstance.getMovies.call();
     }).then(function(movies) {
       for (i = 0; i < movies.length; i++) {
-        
+        var petsRow = $('#moviesRow');
+        var petTemplate = $('#movieTemplate');
 
-        if (movies[i] !== '0x0000000000000000000000000000000000000000') {
-          $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
-        }
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('.input-rating').attr('data-id', data[i].id);
+        petTemplate.find('.btn-rating').attr('data-id', data[i].id);
+
+        petsRow.append(petTemplate.html());
       }
     }).catch(function(err) {
       console.log(err.message);
     });
   },
-
 };
 
 $(function() {
