@@ -1,6 +1,7 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 require('dotenv').config()
 
+console.log(process.env.MNEMONIC);
 
 module.exports = {
   networks: {
@@ -10,15 +11,15 @@ module.exports = {
       network_id: "*"
     },
     rinkeby: {
-      provider: () => new HDWalletProvider(process.env.MNENOMIC, `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`),
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`),
         network_id: 4,       // rinkeby's id
         gas: 4500000,        // rinkeby has a lower block limit than mainnet
         gasPrice: 10000000000
     },
     ropsten: {
-      provider: () => new HDWalletProvider(process.env.MNENOMIC, `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`),
-        network_id: 3,       // rinkeby's id
-        gas: 4500000,        // rinkeby has a lower block limit than mainnet
+      provider: () => new HDWalletProvider(process.env.MNEMONIC, `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`),
+        network_id: 3,       
+        gas: 4500000,        
         gasPrice: 10000000000
     },
   },
