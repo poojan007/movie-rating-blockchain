@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "lite-server",
     "test": "truffle test",
-    "deploy": "truffle migrate --network development"
+    "deploy": "truffle migrate --reset --network development"
   },
   "author": "",
   "license": "ISC",
