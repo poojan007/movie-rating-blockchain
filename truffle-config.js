@@ -1,22 +1,22 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
-const infuraKey = "5474f80511bb4fb2870f40085fc55720";
-const mnemonic = "tunnel hollow people habit estate roof uncle chat coin off grant risk";
+require('dotenv').config()
+console.log(process.env.LOCAL_PORT);
 
 module.exports = {
   networks: {
     development: {
       host: "127.0.0.1",
-      port: 7545,
+      port: process.env.LOCAL_PORT,
       network_id: "*"
     },
     rinkeby: {
-      provider: () => new HDWalletProvider(mnemonic, `https://rinkeby.infura.io/v3/${infuraKey}`),
+      provider: () => new HDWalletProvider(process.env.MNENOMIC, `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`),
         network_id: 4,       // rinkeby's id
         gas: 4500000,        // rinkeby has a lower block limit than mainnet
         gasPrice: 10000000000
     },
     ropsten: {
-      provider: () => new HDWalletProvider(mnemonic, `https://ropsten.infura.io/v3/${infuraKey}`),
+      provider: () => new HDWalletProvider(process.env.MNENOMIC, `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`),
         network_id: 3,       // rinkeby's id
         gas: 4500000,        // rinkeby has a lower block limit than mainnet
         gasPrice: 10000000000
