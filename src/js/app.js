@@ -24,17 +24,43 @@ App = {
   },
 
   initWeb3: async function() {
-    /*
-     * Replace me...
-     */
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      App.web3Provider = window.ethereum;
+      try {
+        // Request account access
+        await window.ethereum.enable();
+      } catch (error) {
+        // User denied account access...
+        console.error("User denied account access")
+      }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+      App.web3Provider = window.web3.currentProvider;
+    }
+    // If no injected web3 instance is detected, fall back to Ganache
+    else {
+      alert('Install Metamask Chrome Extension to proceed further');
+      console.error("User wallet not found");
+    }
+    web3 = new Web3(App.web3Provider);
 
     return App.initContract();
   },
 
   initContract: function() {
-    /*
-     * Replace me...
-     */
+    $.getJSON('MovieRating.json', function(data) {
+      // Get the necessary contract artifact file and instantiate it with @truffle/contract
+      var MovieRatingArtifact = data;
+      App.contracts.MovieRating = TruffleContract(MovieRatingArtifact);
+    
+      // Set the provider for our contract
+      App.contracts.MovieRating.setProvider(App.web3Provider);
+    
+      // Use our contract to retrieve the movie ratings
+      return App.getRating();
+    });
 
     return App.bindEvents();
   },
@@ -43,21 +69,24 @@ App = {
     $(document).on('click', '.btn-adopt', App.handleAdopt);
   },
 
-  markAdopted: function() {
-    /*
-     * Replace me...
-     */
+  getRating: function() {
+    var movieRatingInstance;
+
+    App.contracts.MovieRating.deployed().then(function(instance) {
+      movieRatingInstance = instance;
+      return movieRatingInstance.getMovies.call();
+    }).then(function(movies) {
+      for (i = 0; i < movies.length; i++) {
+        
+
+        if (movies[i] !== '0x0000000000000000000000000000000000000000') {
+          $('.panel-pet').eq(i).find('button').text('Success').attr('disabled', true);
+        }
+      }
+    }).catch(function(err) {
+      console.log(err.message);
+    });
   },
-
-  handleAdopt: function(event) {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-
-    /*
-     * Replace me...
-     */
-  }
 
 };
 
