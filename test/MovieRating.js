@@ -60,8 +60,8 @@ it("Should not be able rate the movie 0", async () => {
     }
 
 })
-
 it("Should not be able rate the movie if id doesn't exist", async () => {
+
     let instance = await MovieRating.deployed();
     try{
         await instance.rate(100, 1);

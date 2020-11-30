@@ -59,4 +59,5 @@ contract MovieRating {
     function getMovies() public view returns(string[] memory) {
         return movies;
     }
+
 }
